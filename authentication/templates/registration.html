@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+  <style>
+    /* Your CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      box-sizing: border-box; /* Include padding in width */
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .login-link {
+      font-size: 14px;
+    }
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function validateRegistrationForm() {
+      const name = document.getElementById("register-name").value;
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+      const confirmPassword = document.getElementById("register-confirm-password").value;
+
+      if (name.trim() === "" || email.trim() === "" || password.trim() === "" || confirmPassword.trim() === "") {
+        alert("Please fill in all fields.");
+        return false;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return false;
+      }
+      if (!email.endsWith('@alstomgroup.com')) {
+        alert("Email must end with @alstomgroup.com");
+        return false;
+      }
+
+      // Additional password complexity check can be added here
+      
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    {% if error %}
+        <script>alert("{{ error }}");</script>
+    {% endif %}
+    {% if success %}
+        <script>alert("{{ success }}");</script>
+    {% endif %}
+    <h1>Registration</h1>
+    <form action="{% url 'register' %}" method="post" id="registration-form" onsubmit="return validateRegistrationForm()">
+      {% csrf_token %}
+      <label for="register-name">Full Name:</label>
+      <input type="text" id="register-name" placeholder="Name" name="register-name" required><br><br>
+      <label for="register-email">Email:</label>
+      <input type="email" id="register-email" placeholder="Email" name="register-email" required><br><br>
+      <label for="register-password">New Password:</label>
+      <input type="password" id="register-password" placeholder="New Password" name="register-password" required><br><br>
+      <label for="register-confirm-password">Re-enter Password:</label>
+      <input type="password" id="register-confirm-password" placeholder="Re-enter Password" name="register-confirm-password" required><br><br>
+      <input type="submit" value="Register"><br><br>
+      <p class="login-link">Already registered? <a href="{% url 'login_view' %}">Login here</a></p>
+  </form>
+  
+  </div>
+</body>
+</html>

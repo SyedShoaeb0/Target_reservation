@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      box-sizing: border-box; /* Include padding in width */
+    }
+    
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 300px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input[type="text"],
+    input[type="password"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      box-sizing: border-box; /* Include padding in width */
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .register-link {
+      font-size: 14px;
+    }
+    .register-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function validateLoginForm() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+  
+      if (email.trim() === "" || password.trim() === "") {
+        alert("Please fill in all fields.");
+        return false;
+      }
+      if (!email.endsWith('@alstomgroup.com')) {
+        alert("Email must end with @alstomgroup.com");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <form action="{% url 'login_view' %}" method="post" id="login-form" onsubmit="return validateLoginForm()">
+      {% csrf_token %}
+      <label for="login-email">Email:</label>
+      <input type="email" id="login-email" placeholder="Email" name="login-email" required><br><br>
+      <label for="login-password">Password:</label>
+      <input type="password" id="login-password" placeholder="Password" name="login-password" required><br><br>
+      <input type="submit" value="Login"><br><br>
+      <p class="register-link">Not a member? <a href="{% url 'register' %}">Register here</a></p>
+  </form>  
+  </div>
+  <script>
+    // Display server-side error message if it exists
+    window.onload = function() {
+      var error = "{{ error }}";
+      if (error) {
+        alert(error);
+      }
+    };
+  </script>
+</body>
+</html>
